@@ -36,5 +36,8 @@
     "aws-sdk-client-mock": "^2.0.1",
     "aws-sdk-client-mock-jest": "^2.0.1",
     "axios": "^1.2.4"
+  },
+  "dependencies": {
+    "@aws-lambda-powertools/idempotency": "^1.8.0-alpha.0"
   }
 }
