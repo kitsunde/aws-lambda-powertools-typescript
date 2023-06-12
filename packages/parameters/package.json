@@ -21,8 +21,7 @@
     "lint": "eslint --ext .ts,.js --no-error-on-unmatched-pattern .",
     "lint-fix": "eslint --fix --ext .ts,.js --no-error-on-unmatched-pattern .",
     "prebuild": "rimraf ./lib",
-    "prepack": "cp ../../.github/scripts/release_patch_package_json.js . && node release_patch_package_json.js",
-    "postpack": "rm release_patch_package_json.js"
+    "prepack": "cp ../../.github/scripts/release_patch_package_json.js ./patch-pkg.js && node patch-pkg.js && rm patch-pkg.js"
   },
   "lint-staged": {
     "*.ts": "npm run lint-fix",
