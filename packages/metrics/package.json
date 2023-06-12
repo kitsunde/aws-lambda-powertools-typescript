@@ -20,8 +20,7 @@
     "build": "tsc",
     "lint": "eslint --ext .ts,.js --no-error-on-unmatched-pattern .",
     "lint-fix": "eslint --fix --ext .ts,.js --no-error-on-unmatched-pattern .",
-    "prebuild": "rimraf ./lib",
-    "prepack": "cp ../../.github/scripts/release_patch_package_json.js ./patch-pkg.js && node patch-pkg.js && rm patch-pkg.js"
+    "prebuild": "rimraf ./lib"
   },
   "lint-staged": {
     "*.ts": "npm run lint-fix",

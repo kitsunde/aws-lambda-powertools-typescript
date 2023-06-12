@@ -1,4 +1,5 @@
 {
+  "$schema": "node_modules/@lerna-lite/cli/schemas/lerna-schema.json",
   "packages": [
     "packages/commons",
     "packages/tracer",
@@ -12,5 +13,21 @@
   ],
   "version": "1.9.0",
   "npmClient": "npm",
-  "message": "chore(release): %s [skip ci]"
+  "message": "chore(release): %s [skip ci]",
+  "command": {
+    "version": {
+      "conventionalCommits": true,
+      "forcePublish": false,
+      "commitHooks": false,
+      "syncWorkspaceLock": true
+    },
+    "publish": {
+      "removePackageFields": [
+        "publishConfig",
+        "scripts",
+        "lint-staged",
+        "devDependencies"
+      ]
+    }
+  }
 }
