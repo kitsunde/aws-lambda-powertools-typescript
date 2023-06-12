@@ -1,6 +1,9 @@
 const { readFileSync, writeFileSync } = require('node:fs');
 
 const outDir = './lib';
+const alphaPackages = [
+  '@aws-lambda-powertools/idempotency',
+];
 const betaPackages = [
   '@aws-lambda-powertools/parameters',
 ];
@@ -19,13 +22,17 @@ const betaPackages = [
  * - bugs
  * - keywords
  * - dependencies
- * - devDependencies
+ * - exports
+ * - typeVersions
+ * - main
+ * - types
+ * - files
  * 
- * For beta packages, the version number is updated to include a beta suffix.
+ * For alplha & beta packages, the version number is updated to include the appropriate suffix.
  * 
  * The new package.json file is written to the lib folder, which is the folder that will be packed and published to npm.
- * For beta packages, the original package.json file is also temporarily updated with the new beta version number so that
- * the version number in the registry is correct and matches the tarball.
+ * For alpha & beta packages, the original package.json file is also temporarily updated with the new beta version number
+ * so that the version number in the registry is correct and matches the tarball.
  */
 (() => {
   try {
@@ -43,13 +50,22 @@ const betaPackages = [
       bugs,
       keywords,
       dependencies,
-      devDependencies,
+      exports,
+      typeVersions,
+      main,
+      types,
+      files,
     } = pkgJson;
 
     let version = originalVersion;
-    // Add a beta suffix to the version
-    if (betaPackages.includes(name)) {
+    let isGA = true;
+    // If the package is an alpha or beta package, update the version number to include a suffix
+    if (alphaPackages.includes(name)) {
+      version = `${version}-alpha`;
+      isGA = false;
+    } else if (betaPackages.includes(name)) {
       version = `${version}-beta`;
+      isGA = false;
     }
 
     // Create a new package.json file with the updated version for the tarball
@@ -64,19 +80,26 @@ const betaPackages = [
       bugs,
       keywords,
       dependencies,
-      devDependencies,
-      main: './index.js',
-      types: './index.d.ts',
+      main,
+      types,
+      files,
     };
+    // Not all packages have these fields yet, so only add them if they exist
+    if (exports) {
+      newPkgJson.exports = exports;
+    }
+    if (typeVersions) {
+      newPkgJson.typeVersions = typeVersions;
+    }
 
     // Write the new package.json file inside the folder that will be packed
     writeFileSync(`${outDir}/package.json`, JSON.stringify(newPkgJson, null, 2));
 
-    if (betaPackages.includes(name)) {
-      // Temporarily update the original package.json file with the new beta version.
+    if (!isGA) {
+      // Temporarily update the original package.json file with the new alpha or beta version.
       // This version number will be picked up during the `npm publish` step, so that
       // the version number in the registry is correct and matches the tarball.
-      // The original package.json file will be restored by lerna after the publish step.
+      // The original package.json file will be restored after the publish step.
       writeFileSync('package.json', JSON.stringify({ ...pkgJson, version }, null, 2));
     }
   } catch (err) {
