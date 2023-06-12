@@ -18,7 +18,7 @@
     "init-environment": "husky install",
     "test": "npm t -ws",
     "package": "npm run package -ws",
-    "setup-local": "npm ci --foreground-scripts && npm run init-environment",
+    "setup-local": "npm ci && npm run build && npm run init-environment",
     "build": "npm run build -ws",
     "docs-website-build-run": "npm run docs-buildDockerImage && npm run docs-runLocalDocker",
     "docs-buildDockerImage": "docker build -t powertools-typescript/docs ./docs/",
