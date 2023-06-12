@@ -21,7 +21,8 @@
     "cdk": "cdk"
   },
   "lint-staged": {
-    "*.ts": "npm run lint-fix"
+    "*.ts": "npm run lint-fix",
+    "*.js": "npm run lint-fix"
   },
   "devDependencies": {
     "@aws-lambda-powertools/logger": "^1.9.0",
