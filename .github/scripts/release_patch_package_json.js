@@ -91,7 +91,7 @@ const betaPackages = [
 
     // This version number will be picked up during the `npm publish` step, so that
     // it contains the correct version number and fields for the tarball.
-    writeFileSync('package.json', JSON.stringify({ ...pkgJson, version }, null, 2));
+    writeFileSync('package.json', JSON.stringify(newPkgJson, null, 2));
   } catch (err) {
     throw err;
   }
